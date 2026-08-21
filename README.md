@@ -2,9 +2,10 @@
 
 The official static leaderboard for **LongRCA Bench: Diagnosing Responsible Roles and Root Causes in Long-Horizon Agent Failures**.
 
-- [Leaderboard](https://cloud5-real.github.io/longrca-bench/)
+- [Leaderboard](https://cloudreal.github.io/longrca-bench/)
 - [Paper](https://arxiv.org/abs/2608.15242)
 - [Dataset](https://huggingface.co/datasets/CLoud5-real/longrca-bench)
+- [GitHub](https://github.com/Cloudreal/longrca-bench)
 
 The first release presents the six paper results on 1,140 public trajectories across five domains. Because the gold labels are public, this site is a reproducibility leaderboard rather than a hidden-test competition.
 

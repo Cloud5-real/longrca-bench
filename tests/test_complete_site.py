@@ -82,7 +82,7 @@ class CompleteSiteTest(unittest.TestCase):
     def test_robots_and_sitemap_target_the_pages_url(self) -> None:
         robots = (REPO_ROOT / "robots.txt").read_text(encoding="utf-8")
         sitemap = (REPO_ROOT / "sitemap.xml").read_text(encoding="utf-8")
-        canonical = "https://cloud5-real.github.io/longrca-bench/"
+        canonical = "https://cloudreal.github.io/longrca-bench/"
         self.assertIn(f"Sitemap: {canonical}sitemap.xml", robots)
         self.assertIn(f"<loc>{canonical}</loc>", sitemap)
 

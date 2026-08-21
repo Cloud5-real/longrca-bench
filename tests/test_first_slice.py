@@ -8,7 +8,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 PAPER_URL = "https://arxiv.org/abs/2608.15242"
 DATASET_URL = "https://huggingface.co/datasets/CLoud5-real/longrca-bench"
-GITHUB_URL = "https://github.com/CLoud5-real/longrca-bench"
+GITHUB_URL = "https://github.com/Cloudreal/longrca-bench"
 
 
 class FirstSliceTest(unittest.TestCase):

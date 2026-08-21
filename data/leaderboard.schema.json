@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://cloud5-real.github.io/longrca-bench/data/leaderboard.schema.json",
+  "$id": "https://cloudreal.github.io/longrca-bench/data/leaderboard.schema.json",
   "title": "LongRCA Bench leaderboard",
   "type": "object",
   "additionalProperties": false,
