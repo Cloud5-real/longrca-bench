@@ -4,8 +4,7 @@
   "description": "A benchmark for identifying who was responsible and where the root cause occurred in long-horizon multi-agent failure trajectories.",
   "links": {
     "paper": "https://arxiv.org/abs/2608.15242",
-    "dataset": "https://huggingface.co/datasets/CLoud5-real/longrca-bench",
-    "github": "https://github.com/Cloud5-real/longrca-bench"
+    "dataset": "https://huggingface.co/datasets/CLoud5-real/longrca-bench"
   },
   "stats": [
     {

@@ -63,7 +63,6 @@ CANONICAL_URL = "https://cloud5-real.github.io/longrca-bench/"
 REQUIRED_PUBLIC_LINKS = {
     "https://arxiv.org/abs/2608.15242",
     "https://huggingface.co/datasets/CLoud5-real/longrca-bench",
-    "https://github.com/Cloud5-real/longrca-bench",
 }
 REQUIRED_ANCHORS = {"overview", "leaderboard", "metrics", "contribute", "citation"}
 TEXT_SUFFIXES = {".css", ".html", ".js", ".json", ".md", ".py", ".txt", ".xml", ".yaml", ".yml"}

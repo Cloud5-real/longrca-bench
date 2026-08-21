@@ -25,7 +25,7 @@ class FirstSliceTest(unittest.TestCase):
         self.assertNotIn("Diagnosing <em>who</em>", html)
         self.assertNotIn(">Who?<", html)
         self.assertNotIn(">When?<", html)
-        for url in (PAPER_URL, DATASET_URL, GITHUB_URL):
+        for url in (PAPER_URL, DATASET_URL):
             self.assertIn(url, html)
         for anchor in ("overview", "leaderboard"):
             self.assertIn(f'id="{anchor}"', html)
@@ -36,7 +36,7 @@ class FirstSliceTest(unittest.TestCase):
 
     def test_hero_resource_links_have_local_icons(self) -> None:
         html = (REPO_ROOT / "index.html").read_text(encoding="utf-8")
-        for icon in ("arxiv.svg", "huggingface.svg", "github.svg"):
+        for icon in ("arxiv.svg", "huggingface.svg"):
             relative_path = f"assets/icons/{icon}"
             self.assertIn(f'src="{relative_path}"', html)
             self.assertTrue((REPO_ROOT / relative_path).is_file())
@@ -57,6 +57,25 @@ class FirstSliceTest(unittest.TestCase):
                     {expected_color},
                     {path.get("fill") for path in paths},
                 )
+
+    def test_code_repository_is_not_advertised_as_a_project_resource(self) -> None:
+        html = (REPO_ROOT / "index.html").read_text(encoding="utf-8")
+        hero_start = html.index('<div class="hero-actions"')
+        hero_end = html.index("</div>", hero_start)
+        footer_start = html.index('<footer class="footer">')
+        hero_actions = html[hero_start:hero_end]
+        footer = html[footer_start:]
+
+        self.assertNotIn(GITHUB_URL, hero_actions)
+        self.assertNotIn(f'href="{GITHUB_URL}"', footer)
+        self.assertNotIn("github.svg", hero_actions)
+
+    def test_submission_guide_remains_available_for_leaderboard_prs(self) -> None:
+        html = (REPO_ROOT / "index.html").read_text(encoding="utf-8")
+        self.assertIn(
+            f'href="{GITHUB_URL}/blob/main/CONTRIBUTING.md"',
+            html,
+        )
 
     def test_leaderboard_is_model_first_and_step_exact_focused(self) -> None:
         html = (REPO_ROOT / "index.html").read_text(encoding="utf-8")
@@ -87,6 +106,10 @@ class FirstSliceTest(unittest.TestCase):
                 ("Median root-to-end", "48"),
             ],
             [(stat["label"], stat["value"]) for stat in site["stats"]],
+        )
+        self.assertEqual(
+            {"paper": PAPER_URL, "dataset": DATASET_URL},
+            site["links"],
         )
 
     def test_javascript_fetches_the_unique_leaderboard_source(self) -> None:
