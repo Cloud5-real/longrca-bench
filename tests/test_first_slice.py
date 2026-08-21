@@ -15,7 +15,7 @@ class FirstSliceTest(unittest.TestCase):
     def test_hero_stats_and_leaderboard_surface_exist(self) -> None:
         html = (REPO_ROOT / "index.html").read_text(encoding="utf-8")
         self.assertIn(
-            "Benchmarking root-cause localization in long-horizon agent failures.",
+            "Long-Horizon Root-Cause Localization.",
             html,
         )
         self.assertIn(
@@ -32,6 +32,13 @@ class FirstSliceTest(unittest.TestCase):
         self.assertIn('id="leaderboard-body"', html)
         self.assertIn('href="assets/styles.css"', html)
         self.assertIn('src="assets/app.js"', html)
+
+    def test_hero_resource_links_have_local_icons(self) -> None:
+        html = (REPO_ROOT / "index.html").read_text(encoding="utf-8")
+        for icon in ("arxiv.svg", "huggingface.svg", "github.svg"):
+            relative_path = f"assets/icons/{icon}"
+            self.assertIn(f'src="{relative_path}"', html)
+            self.assertTrue((REPO_ROOT / relative_path).is_file())
 
     def test_leaderboard_is_model_first_and_step_exact_focused(self) -> None:
         html = (REPO_ROOT / "index.html").read_text(encoding="utf-8")

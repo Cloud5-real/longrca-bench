@@ -24,6 +24,7 @@ Include at least:
   "submission_id": "team-method-model-yyyymmdd",
   "method": "Method name",
   "model": "Model name and version",
+  "provider": "Model provider or organization",
   "authors": ["Contributor name"],
   "date": "YYYY-MM-DD",
   "code_url": "https://github.com/example/repository",

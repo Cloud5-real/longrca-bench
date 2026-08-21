@@ -43,10 +43,11 @@ const renderLeaderboard = (payload) => {
           <td><span class="rank">${index + 1}</span></td>
           <td class="model-cell">
             <span class="model-name">${escapeHtml(row.model)}</span>
-            <span class="sample-count">n = ${row.n.toLocaleString("en-US")}</span>
+            <span class="model-provider">Provider · ${escapeHtml(row.provider)}</span>
           </td>
           <td>
             <a class="method-link" href="${escapeHtml(paperUrl)}">${escapeHtml(row.method)} <span aria-hidden="true">↗</span></a>
+            <span class="sample-count">n = ${row.n.toLocaleString("en-US")}</span>
           </td>
           <td class="number primary-metric"><strong>${formatPercent(row.root_exact_correct, row.n)}</strong></td>
           ${benchmarkCells}

@@ -113,6 +113,7 @@ class ExportPaperResultsTest(unittest.TestCase):
                 self.assertEqual(within_five, row["root_within_5_correct"])
                 self.assertEqual(mae, round(row["root_mae"], 1))
                 self.assertEqual("DeepSeek-V4-Flash", row["model"])
+                self.assertEqual("DeepSeek", row["provider"])
                 self.assertEqual("Paper Result", row["status"])
 
         self.assertEqual(

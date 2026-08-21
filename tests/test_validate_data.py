@@ -65,6 +65,12 @@ class ValidateDataTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Root Exact descending"):
             validator.validate_leaderboard(payload)
 
+    def test_empty_model_provider_is_rejected(self) -> None:
+        payload = copy.deepcopy(self.payload)
+        payload["results"][0]["provider"] = "   "
+        with self.assertRaisesRegex(ValueError, "provider must be non-empty"):
+            validator.validate_leaderboard(payload)
+
     def test_benchmark_slice_total_mismatch_is_rejected(self) -> None:
         payload = copy.deepcopy(self.payload)
         payload["results"][0]["by_benchmark"]["swe_bench_pro"]["n"] = 127

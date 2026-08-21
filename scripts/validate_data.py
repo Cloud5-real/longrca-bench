@@ -31,6 +31,7 @@ REQUIRED_RESULT_FIELDS = {
     "id",
     "method",
     "model",
+    "provider",
     "n",
     "role_correct",
     "root_exact_correct",
@@ -145,8 +146,8 @@ def validate_leaderboard(payload: Any) -> None:
         raise ValueError(f"leaderboard is missing fields: {sorted(missing)}")
     _find_forbidden_fields(payload)
 
-    if payload["schema_version"] != "1.1.0":
-        raise ValueError("schema_version must be 1.1.0")
+    if payload["schema_version"] != "1.2.0":
+        raise ValueError("schema_version must be 1.2.0")
     if payload["benchmark"] != "LongRCA Bench":
         raise ValueError("benchmark must be LongRCA Bench")
     if payload["evaluation_split"] != "public":
@@ -197,6 +198,8 @@ def validate_leaderboard(payload: Any) -> None:
         methods.add(method)
         if row["model"] != "DeepSeek-V4-Flash":
             raise ValueError(f"{result_id}: model must be DeepSeek-V4-Flash")
+        if not isinstance(row["provider"], str) or not row["provider"].strip():
+            raise ValueError(f"{result_id}: provider must be non-empty")
         if row["status"] != "Paper Result":
             raise ValueError(f"{result_id}: status must be Paper Result")
 

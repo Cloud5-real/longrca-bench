@@ -21,6 +21,7 @@ from typing import Any, Iterable
 PAPER_URL = "https://arxiv.org/abs/2608.15242"
 DATASET_URL = "https://huggingface.co/datasets/CLoud5-real/longrca-bench"
 MODEL_NAME = "DeepSeek-V4-Flash"
+PROVIDER_NAME = "DeepSeek"
 PAPER_DATE = "2026-08-20"
 
 METHOD_LABELS = {
@@ -228,6 +229,7 @@ def build_leaderboard(
                 "id": f"{slugify(method_label)}-deepseek-v4-flash-paper",
                 "method": method_label,
                 "model": MODEL_NAME,
+                "provider": PROVIDER_NAME,
                 "n": n,
                 "role_correct": role_correct,
                 "root_exact_correct": root_exact_correct,
@@ -250,7 +252,7 @@ def build_leaderboard(
         )
     )
     return {
-        "schema_version": "1.1.0",
+        "schema_version": "1.2.0",
         "benchmark": "LongRCA Bench",
         "evaluation_split": "public",
         "generated_at": paper_date,
