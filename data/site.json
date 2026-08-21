@@ -5,7 +5,7 @@
   "links": {
     "paper": "https://arxiv.org/abs/2608.15242",
     "dataset": "https://huggingface.co/datasets/CLoud5-real/longrca-bench",
-    "github": "https://github.com/Cloudreal/longrca-bench"
+    "github": "https://github.com/Cloud5-real/longrca-bench"
   },
   "stats": [
     {
