@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LongRCA Bench: Diagnosing Responsible Roles and Root Causes in Long-Horizon Agent Failures</title>
+    <meta name="description" content="LongRCA Bench evaluates responsible-role and root-cause localization in long-horizon agent failures across 1,140 public trajectories.">
+    <meta name="theme-color" content="#142b49">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="LongRCA Bench">
+    <meta property="og:description" content="Who was responsible—and where did the failure begin? Benchmark long-horizon agent failure diagnosis across 1,140 public trajectories.">
+    <meta property="og:url" content="https://cloud5-real.github.io/longrca-bench/">
+    <meta property="og:image" content="https://cloud5-real.github.io/longrca-bench/assets/og-card.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="LongRCA Bench trajectory from root cause to observed failure">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="LongRCA Bench">
+    <meta name="twitter:description" content="Who was responsible—and where did the failure begin?">
+    <meta name="twitter:image" content="https://cloud5-real.github.io/longrca-bench/assets/og-card.png">
+    <link rel="canonical" href="https://cloud5-real.github.io/longrca-bench/">
+    <link rel="icon" href="assets/favicon.png" type="image/png">
+    <link rel="stylesheet" href="assets/styles.css">
+    <script src="assets/app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#leaderboard">Skip to leaderboard</a>
+    <header class="site-header">
+      <nav class="nav shell" aria-label="Primary navigation">
+        <a class="brand" href="#overview" aria-label="LongRCA Bench home">
+          <span class="brand-mark" aria-hidden="true">LR</span>
+          <span>LongRCA Bench</span>
+        </a>
+        <div class="nav-links">
+          <a href="#leaderboard">Leaderboard</a>
+          <a href="#metrics">Metrics</a>
+          <a href="#contribute">Contribute</a>
+          <a href="#citation">Citation</a>
+          <a class="nav-paper" href="https://arxiv.org/abs/2608.15242">Paper ↗</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="overview">
+        <div class="shell hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow"><span></span> Long-horizon root-cause analysis</p>
+            <h1>Diagnosing <em>who</em> was responsible and <em>where</em> the failure began.</h1>
+            <p class="hero-lede">LongRCA Bench: Diagnosing Responsible Roles and Root Causes in Long-Horizon Agent Failures</p>
+            <p class="hero-description">A public benchmark for tracing consequential agent failures back through long, multi-role trajectories—separating responsible-role attribution from exact root-event localization.</p>
+            <div class="hero-actions" aria-label="Project resources">
+              <a class="button button-primary" href="https://arxiv.org/abs/2608.15242">Read the paper <span aria-hidden="true">↗</span></a>
+              <a class="button" href="https://huggingface.co/datasets/CLoud5-real/longrca-bench">Hugging Face <span aria-hidden="true">↗</span></a>
+              <a class="button" href="https://github.com/CLoud5-real/longrca-bench">GitHub <span aria-hidden="true">↗</span></a>
+            </div>
+          </div>
+          <aside class="hero-card" aria-label="Benchmark task summary">
+            <p class="card-kicker">Two questions. One trajectory.</p>
+            <div class="task-pair">
+              <div>
+                <span class="task-number">01</span>
+                <h2>Who?</h2>
+                <p>Identify the role responsible for the failure.</p>
+              </div>
+              <div>
+                <span class="task-number">02</span>
+                <h2>When?</h2>
+                <p>Locate the earliest root-cause event.</p>
+              </div>
+            </div>
+            <div class="trajectory-line" aria-hidden="true">
+              <i></i><i></i><i></i><i class="root"></i><i></i><i></i><i></i><i></i><i class="end"></i>
+            </div>
+            <div class="trajectory-labels"><span>Root cause</span><span>Observed failure</span></div>
+          </aside>
+        </div>
+        <div class="shell">
+          <div class="stats-grid" id="benchmark-stats" aria-label="Benchmark statistics">
+            <div class="stat-card"><span class="stat-value">1,140</span><span class="stat-label">Trajectories</span><span class="stat-note">Public evaluation set</span></div>
+            <div class="stat-card"><span class="stat-value">5</span><span class="stat-label">Domains</span><span class="stat-note">Diverse agent settings</span></div>
+            <div class="stat-card"><span class="stat-value">145</span><span class="stat-label">Median steps</span><span class="stat-note">Long-horizon traces</span></div>
+            <div class="stat-card"><span class="stat-value">48</span><span class="stat-label">Median root-to-end</span><span class="stat-note">Steps after the root cause</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section leaderboard-section" id="leaderboard">
+        <div class="shell">
+          <div class="section-heading">
+            <div>
+              <p class="section-index">01 / Paper Results</p>
+              <h2>Overall leaderboard</h2>
+            </div>
+            <p>Six methods evaluated on the same 1,140 public trajectories with a shared DeepSeek-V4-Flash backbone. Ranked by Root Exact.</p>
+          </div>
+          <div class="notice" role="note"><span>Public gold labels</span> These are reproducibility-oriented paper results, not a hidden-test competition.</div>
+          <div class="table-wrap" tabindex="0" aria-label="Scrollable leaderboard table">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Rank</th>
+                  <th scope="col">Method</th>
+                  <th scope="col">Backbone</th>
+                  <th scope="col" class="number">Role Acc.</th>
+                  <th scope="col" class="number primary-metric">Root Exact</th>
+                  <th scope="col" class="number">Root ±5</th>
+                  <th scope="col" class="number">Root MAE ↓</th>
+                  <th scope="col">Status</th>
+                </tr>
+              </thead>
+              <tbody id="leaderboard-body">
+                <tr><td colspan="8" class="loading">Loading paper results…</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-footnote">Percentages are computed in the browser from exact correct counts in <code>data/leaderboard.json</code>. Root MAE is lower-is-better.</p>
+        </div>
+      </section>
+
+      <section class="section protocol-section" id="metrics">
+        <div class="shell">
+          <div class="section-heading">
+            <div>
+              <p class="section-index">02 / Evaluation</p>
+              <h2>Two targets, scored independently.</h2>
+            </div>
+            <p>LongRCA separates responsible-role attribution from root-event localization. A method can identify the right role without locating the right step—and vice versa.</p>
+          </div>
+
+          <div class="metrics-grid">
+            <article class="metric-card featured-metric">
+              <div class="metric-mark">WHO</div>
+              <h3>Role Accuracy</h3>
+              <p>Exact normalized match between the submitted <code>predicted_role</code> and the gold responsible role.</p>
+              <small>Scored directly from the explicit role prediction, independently of <code>predicted_step</code>.</small>
+            </article>
+            <article class="metric-card">
+              <div class="metric-mark">=</div>
+              <h3>Root Exact</h3>
+              <p>Fraction of trajectories whose predicted root-cause step exactly matches the gold step.</p>
+              <small>Primary ranking metric. Higher is better.</small>
+            </article>
+            <article class="metric-card">
+              <div class="metric-mark">±5</div>
+              <h3>Root ±5</h3>
+              <p>Fraction of predictions landing within five trajectory steps of the gold root cause.</p>
+              <small>Measures near-localization. Higher is better.</small>
+            </article>
+            <article class="metric-card">
+              <div class="metric-mark">Δ</div>
+              <h3>Root MAE</h3>
+              <p>Mean absolute root-step error, measured in trajectory steps over valid step predictions.</p>
+              <small>Coverage and failures remain visible in the JSON. Lower is better.</small>
+            </article>
+          </div>
+
+          <div class="protocol-grid">
+            <div>
+              <p class="mini-label">Evaluation protocol</p>
+              <h3>Comparable by construction</h3>
+            </div>
+            <ol>
+              <li><span>01</span><div><strong>Same public set</strong><p>All paper methods are evaluated on 1,140 trajectories across five domains.</p></div></li>
+              <li><span>02</span><div><strong>Same backbone</strong><p>Every displayed result uses DeepSeek-V4-Flash.</p></div></li>
+              <li><span>03</span><div><strong>All-example denominator</strong><p>Failed or invalid outputs count as incorrect for Role Accuracy, Root Exact, and Root ±5.</p></div></li>
+              <li><span>04</span><div><strong>Transparent provenance</strong><p>Exact counts, valid-step coverage, failed counts, dates, and result links are versioned in JSON.</p></div></li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <section class="section contribute-section" id="contribute">
+        <div class="shell">
+          <div class="contribute-heading">
+            <div>
+              <p class="section-index">03 / Contribute</p>
+              <h2>Submit results through a reviewed pull request.</h2>
+            </div>
+            <p>Community results will be validated automatically, reviewed by maintainers, and added after the PR is merged. Because labels are public, submissions should be treated as reproducibility reports.</p>
+          </div>
+
+          <div class="submission-files" aria-label="Required submission files">
+            <article>
+              <span class="file-number">01</span>
+              <code>metadata.json</code>
+              <p>Method, model, authors, date, code URL, log URL, and reproducibility metadata.</p>
+            </article>
+            <article>
+              <span class="file-number">02</span>
+              <code>predictions.jsonl</code>
+              <p>Exactly 1,140 rows containing <code>question_ID</code>, <code>predicted_role</code>, and <code>predicted_step</code>.</p>
+            </article>
+            <article>
+              <span class="file-number">03</span>
+              <code>REPRODUCE.md</code>
+              <p>Environment, prompts, settings, commands, and enough detail to rerun the method.</p>
+            </article>
+          </div>
+
+          <div class="submission-note">
+            <div>
+              <strong>Keep large artifacts outside the Pages repository.</strong>
+              <p>Store traces and raw logs in durable external storage, then include public links in <code>metadata.json</code>.</p>
+            </div>
+            <a class="button button-light" href="https://github.com/CLoud5-real/longrca-bench/blob/main/CONTRIBUTING.md">Read the submission guide <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section citation-section" id="citation">
+        <div class="shell citation-grid">
+          <div class="citation-copy">
+            <p class="section-index">04 / Citation</p>
+            <h2>Build on LongRCA Bench.</h2>
+            <p>If this benchmark, dataset, or leaderboard supports your work, please cite the paper.</p>
+            <div class="paper-meta">
+              <span>arXiv:2608.15242</span>
+              <span>cs.AI · cs.SE</span>
+              <span>2026</span>
+            </div>
+            <a class="text-link" href="https://arxiv.org/abs/2608.15242">View paper on arXiv <span aria-hidden="true">↗</span></a>
+          </div>
+          <div class="citation-box">
+            <div class="code-toolbar">
+              <span>BibTeX</span>
+              <button id="copy-citation" type="button" aria-describedby="copy-status">Copy citation</button>
+            </div>
+            <pre><code id="citation-code">@article{zhang2026longrca,
+  title   = {LongRCA Bench: Diagnosing Responsible Roles and Root Causes in Long-Horizon Agent Failures},
+  author  = {Zhang, Yunfei and Feng, Boyu and Pei, Changhua and Wang, Zexin and Peng, Zhihuang and Liu, Xinlong and Jiang, Hengyue and Ma, Difeng and Zhang, Jiayi and Yao, Yongzhou and Zhao, Yanan and Sun, Fei and Huo, Yintong and Liu, Zhaoyang and Li, Jingjing and Xie, Gaogang and Pei, Dan},
+  journal = {arXiv preprint arXiv:2608.15242},
+  year    = {2026}
+}</code></pre>
+            <span class="sr-only" id="copy-status" aria-live="polite"></span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="shell footer-grid">
+        <div>
+          <a class="brand footer-brand" href="#overview"><span class="brand-mark" aria-hidden="true">LR</span><span>LongRCA Bench</span></a>
+          <p>Diagnosing responsible roles and root causes in long-horizon agent failures.</p>
+        </div>
+        <div class="footer-links">
+          <a href="https://arxiv.org/abs/2608.15242">Paper</a>
+          <a href="https://huggingface.co/datasets/CLoud5-real/longrca-bench">Dataset</a>
+          <a href="https://github.com/CLoud5-real/longrca-bench">GitHub</a>
+          <a href="#contribute">Contribute</a>
+        </div>
+        <p class="footer-note">Paper Results · Public evaluation data<br>Last updated <time datetime="2026-08-20">2026-08-20</time></p>
+      </div>
+    </footer>
+  </body>
+</html>

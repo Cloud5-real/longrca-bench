@@ -1,0 +1,32 @@
+{
+  "title": "LongRCA Bench",
+  "headline": "Diagnosing Responsible Roles and Root Causes in Long-Horizon Agent Failures",
+  "description": "A benchmark for identifying who was responsible and where the root cause occurred in long-horizon multi-agent failure trajectories.",
+  "links": {
+    "paper": "https://arxiv.org/abs/2608.15242",
+    "dataset": "https://huggingface.co/datasets/CLoud5-real/longrca-bench",
+    "github": "https://github.com/CLoud5-real/longrca-bench"
+  },
+  "stats": [
+    {
+      "label": "Trajectories",
+      "value": "1,140",
+      "note": "Public evaluation set"
+    },
+    {
+      "label": "Domains",
+      "value": "5",
+      "note": "Diverse agent settings"
+    },
+    {
+      "label": "Median steps",
+      "value": "145",
+      "note": "Long-horizon traces"
+    },
+    {
+      "label": "Median root-to-end",
+      "value": "48",
+      "note": "Steps after the root cause"
+    }
+  ]
+}
