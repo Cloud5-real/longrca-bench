@@ -11,7 +11,9 @@ The first release presents the six paper results on 1,140 public trajectories ac
 
 ## Data model
 
-`data/leaderboard.json` is the only source used to render leaderboard rows. It stores exact counts (`role_correct`, `root_exact_correct`, and `root_within_5_correct`) instead of duplicated percentages. The browser computes every displayed percentage from those counts and `n`.
+`data/leaderboard.json` is the only source used to render leaderboard rows. The primary table ranks by overall exact root-cause step accuracy and shows the corresponding exact-step result for SWE-bench Pro, Terminal-Bench 2, TravelPlanner, VitaBench, and WebArena. It stores exact counts and denominators—including each `by_benchmark` slice—instead of duplicated percentages, so the browser computes every displayed value directly from versioned counts.
+
+Responsible-role accuracy, root ±5 accuracy, MAE, coverage, and failure counts remain in the same JSON record as complementary diagnostics even though they are not shown in the primary table.
 
 The paper-result exporter scores responsible-role accuracy from the explicit `predicted_agent` column in the evaluation records. It never derives the role from `history[predicted_step].name`. Paper-reported Root MAE values are pinned in the exporter because failed predictions do not serialize a `step_abs_err` in the records table.
 

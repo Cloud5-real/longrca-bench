@@ -12,10 +12,11 @@
     "paper_url",
     "dataset_url",
     "sort",
+    "benchmark_slices",
     "results"
   ],
   "properties": {
-    "schema_version": { "const": "1.0.0" },
+    "schema_version": { "const": "1.1.0" },
     "benchmark": { "const": "LongRCA Bench" },
     "evaluation_split": { "const": "public" },
     "generated_at": { "type": "string", "format": "date" },
@@ -30,6 +31,19 @@
         "direction": { "const": "descending" }
       }
     },
+    "benchmark_slices": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "prefixItems": [
+        { "$ref": "#/$defs/sweSlice" },
+        { "$ref": "#/$defs/terminalSlice" },
+        { "$ref": "#/$defs/travelSlice" },
+        { "$ref": "#/$defs/vitaSlice" },
+        { "$ref": "#/$defs/webSlice" }
+      ],
+      "items": false
+    },
     "results": {
       "type": "array",
       "minItems": 1,
@@ -38,6 +52,30 @@
   },
   "$defs": {
     "count": { "type": "integer", "minimum": 0, "maximum": 1140 },
+    "sweSlice": {
+      "const": { "id": "swe_bench_pro", "label": "SWE-bench Pro", "n": 128 }
+    },
+    "terminalSlice": {
+      "const": { "id": "terminal_bench_2", "label": "Terminal-Bench 2", "n": 42 }
+    },
+    "travelSlice": {
+      "const": { "id": "travelplanner", "label": "TravelPlanner", "n": 685 }
+    },
+    "vitaSlice": {
+      "const": { "id": "vitabench", "label": "VitaBench", "n": 108 }
+    },
+    "webSlice": {
+      "const": { "id": "webarena_verified", "label": "WebArena", "n": 177 }
+    },
+    "sliceResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["n", "root_exact_correct"],
+      "properties": {
+        "n": { "$ref": "#/$defs/count" },
+        "root_exact_correct": { "$ref": "#/$defs/count" }
+      }
+    },
     "result": {
       "type": "object",
       "additionalProperties": false,
@@ -52,6 +90,7 @@
         "root_mae",
         "valid_step_n",
         "failed_n",
+        "by_benchmark",
         "date",
         "status",
         "links"
@@ -67,6 +106,24 @@
         "root_mae": { "type": "number", "minimum": 0 },
         "valid_step_n": { "$ref": "#/$defs/count" },
         "failed_n": { "$ref": "#/$defs/count" },
+        "by_benchmark": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "swe_bench_pro",
+            "terminal_bench_2",
+            "travelplanner",
+            "vitabench",
+            "webarena_verified"
+          ],
+          "properties": {
+            "swe_bench_pro": { "$ref": "#/$defs/sliceResult" },
+            "terminal_bench_2": { "$ref": "#/$defs/sliceResult" },
+            "travelplanner": { "$ref": "#/$defs/sliceResult" },
+            "vitabench": { "$ref": "#/$defs/sliceResult" },
+            "webarena_verified": { "$ref": "#/$defs/sliceResult" }
+          }
+        },
         "date": { "type": "string", "format": "date" },
         "status": { "const": "Paper Result" },
         "links": {

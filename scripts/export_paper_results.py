@@ -47,6 +47,7 @@ PAPER_ROOT_MAE = {
 REQUIRED_COLUMNS = {
     "method",
     "method_label",
+    "benchmark",
     "qid",
     "predicted_agent",
     "ground_truth_agent",
@@ -55,6 +56,22 @@ REQUIRED_COLUMNS = {
     "step_abs_err",
     "step_valid",
     "failed",
+}
+
+BENCHMARK_LABELS = {
+    "swe_bench_pro": "SWE-bench Pro",
+    "terminal_bench_2": "Terminal-Bench 2",
+    "travelplanner": "TravelPlanner",
+    "vitabench": "VitaBench",
+    "webarena_verified": "WebArena",
+}
+
+BENCHMARK_EXPECTED_N = {
+    "swe_bench_pro": 128,
+    "terminal_bench_2": 42,
+    "travelplanner": 685,
+    "vitabench": 108,
+    "webarena_verified": 177,
 }
 
 
@@ -116,6 +133,41 @@ def build_leaderboard(
             f"{sorted(METHOD_LABELS)}"
         )
 
+    benchmark_ids = [
+        benchmark_id
+        for benchmark_id in BENCHMARK_LABELS
+        if any(row["benchmark"] == benchmark_id for row in rows)
+    ]
+    unknown_benchmarks = {row["benchmark"] for row in rows} - set(BENCHMARK_LABELS)
+    if unknown_benchmarks:
+        raise ValueError(f"unknown benchmark ids: {sorted(unknown_benchmarks)}")
+    if expected_n == 1140 and benchmark_ids != list(BENCHMARK_LABELS):
+        raise ValueError("canonical export requires all five benchmark slices")
+
+    benchmark_slices: list[dict[str, Any]] = []
+    for benchmark_id in benchmark_ids:
+        counts = {
+            method_id: sum(row["benchmark"] == benchmark_id for row in method_rows)
+            for method_id, method_rows in grouped.items()
+        }
+        if len(set(counts.values())) != 1:
+            raise ValueError(
+                f"{benchmark_id}: inconsistent sample counts across methods: {counts}"
+            )
+        benchmark_n = next(iter(counts.values()))
+        if expected_n == 1140 and benchmark_n != BENCHMARK_EXPECTED_N[benchmark_id]:
+            raise ValueError(
+                f"{benchmark_id}: expected {BENCHMARK_EXPECTED_N[benchmark_id]} rows "
+                f"per method, found {benchmark_n}"
+            )
+        benchmark_slices.append(
+            {
+                "id": benchmark_id,
+                "label": BENCHMARK_LABELS[benchmark_id],
+                "n": benchmark_n,
+            }
+        )
+
     results: list[dict[str, Any]] = []
     for method_id, method_rows in grouped.items():
         n = len(method_rows)
@@ -158,6 +210,18 @@ def build_leaderboard(
             if expected_n == 1140 and method_id in PAPER_ROOT_MAE
             else _mean_step_error(method_rows)
         )
+        by_benchmark: dict[str, dict[str, int]] = {}
+        for benchmark in benchmark_slices:
+            benchmark_rows = [
+                row for row in method_rows if row["benchmark"] == benchmark["id"]
+            ]
+            by_benchmark[benchmark["id"]] = {
+                "n": len(benchmark_rows),
+                "root_exact_correct": sum(
+                    parse_bool(row["step_exact"], field="step_exact", qid=row["qid"])
+                    for row in benchmark_rows
+                ),
+            }
 
         results.append(
             {
@@ -171,6 +235,7 @@ def build_leaderboard(
                 "root_mae": root_mae,
                 "valid_step_n": valid_step_n,
                 "failed_n": failed_n,
+                "by_benchmark": by_benchmark,
                 "date": paper_date,
                 "status": "Paper Result",
                 "links": {"paper": PAPER_URL},
@@ -185,13 +250,14 @@ def build_leaderboard(
         )
     )
     return {
-        "schema_version": "1.0.0",
+        "schema_version": "1.1.0",
         "benchmark": "LongRCA Bench",
         "evaluation_split": "public",
         "generated_at": paper_date,
         "paper_url": PAPER_URL,
         "dataset_url": DATASET_URL,
         "sort": {"metric": "root_exact", "direction": "descending"},
+        "benchmark_slices": benchmark_slices,
         "results": results,
     }
 

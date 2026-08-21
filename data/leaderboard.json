@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "benchmark": "LongRCA Bench",
   "evaluation_split": "public",
   "generated_at": "2026-08-20",
@@ -9,6 +9,33 @@
     "metric": "root_exact",
     "direction": "descending"
   },
+  "benchmark_slices": [
+    {
+      "id": "swe_bench_pro",
+      "label": "SWE-bench Pro",
+      "n": 128
+    },
+    {
+      "id": "terminal_bench_2",
+      "label": "Terminal-Bench 2",
+      "n": 42
+    },
+    {
+      "id": "travelplanner",
+      "label": "TravelPlanner",
+      "n": 685
+    },
+    {
+      "id": "vitabench",
+      "label": "VitaBench",
+      "n": 108
+    },
+    {
+      "id": "webarena_verified",
+      "label": "WebArena",
+      "n": 177
+    }
+  ],
   "results": [
     {
       "id": "rcta-deepseek-v4-flash-paper",
@@ -21,6 +48,28 @@
       "root_mae": 38.6140350877193,
       "valid_step_n": 1140,
       "failed_n": 0,
+      "by_benchmark": {
+        "swe_bench_pro": {
+          "n": 128,
+          "root_exact_correct": 49
+        },
+        "terminal_bench_2": {
+          "n": 42,
+          "root_exact_correct": 11
+        },
+        "travelplanner": {
+          "n": 685,
+          "root_exact_correct": 129
+        },
+        "vitabench": {
+          "n": 108,
+          "root_exact_correct": 27
+        },
+        "webarena_verified": {
+          "n": 177,
+          "root_exact_correct": 59
+        }
+      },
       "date": "2026-08-20",
       "status": "Paper Result",
       "links": {
@@ -38,6 +87,28 @@
       "root_mae": 50.396491228070175,
       "valid_step_n": 1140,
       "failed_n": 0,
+      "by_benchmark": {
+        "swe_bench_pro": {
+          "n": 128,
+          "root_exact_correct": 10
+        },
+        "terminal_bench_2": {
+          "n": 42,
+          "root_exact_correct": 9
+        },
+        "travelplanner": {
+          "n": 685,
+          "root_exact_correct": 61
+        },
+        "vitabench": {
+          "n": 108,
+          "root_exact_correct": 24
+        },
+        "webarena_verified": {
+          "n": 177,
+          "root_exact_correct": 46
+        }
+      },
       "date": "2026-08-20",
       "status": "Paper Result",
       "links": {
@@ -55,6 +126,28 @@
       "root_mae": 55.937183450550016,
       "valid_step_n": 1136,
       "failed_n": 4,
+      "by_benchmark": {
+        "swe_bench_pro": {
+          "n": 128,
+          "root_exact_correct": 2
+        },
+        "terminal_bench_2": {
+          "n": 42,
+          "root_exact_correct": 3
+        },
+        "travelplanner": {
+          "n": 685,
+          "root_exact_correct": 31
+        },
+        "vitabench": {
+          "n": 108,
+          "root_exact_correct": 21
+        },
+        "webarena_verified": {
+          "n": 177,
+          "root_exact_correct": 30
+        }
+      },
       "date": "2026-08-20",
       "status": "Paper Result",
       "links": {
@@ -72,6 +165,28 @@
       "root_mae": 52.26005565815123,
       "valid_step_n": 1139,
       "failed_n": 1,
+      "by_benchmark": {
+        "swe_bench_pro": {
+          "n": 128,
+          "root_exact_correct": 1
+        },
+        "terminal_bench_2": {
+          "n": 42,
+          "root_exact_correct": 2
+        },
+        "travelplanner": {
+          "n": 685,
+          "root_exact_correct": 24
+        },
+        "vitabench": {
+          "n": 108,
+          "root_exact_correct": 13
+        },
+        "webarena_verified": {
+          "n": 177,
+          "root_exact_correct": 20
+        }
+      },
       "date": "2026-08-20",
       "status": "Paper Result",
       "links": {
@@ -89,6 +204,28 @@
       "root_mae": 61.708771929824564,
       "valid_step_n": 1140,
       "failed_n": 0,
+      "by_benchmark": {
+        "swe_bench_pro": {
+          "n": 128,
+          "root_exact_correct": 1
+        },
+        "terminal_bench_2": {
+          "n": 42,
+          "root_exact_correct": 2
+        },
+        "travelplanner": {
+          "n": 685,
+          "root_exact_correct": 14
+        },
+        "vitabench": {
+          "n": 108,
+          "root_exact_correct": 13
+        },
+        "webarena_verified": {
+          "n": 177,
+          "root_exact_correct": 9
+        }
+      },
       "date": "2026-08-20",
       "status": "Paper Result",
       "links": {
@@ -106,6 +243,28 @@
       "root_mae": 66.6061403508772,
       "valid_step_n": 1140,
       "failed_n": 0,
+      "by_benchmark": {
+        "swe_bench_pro": {
+          "n": 128,
+          "root_exact_correct": 3
+        },
+        "terminal_bench_2": {
+          "n": 42,
+          "root_exact_correct": 1
+        },
+        "travelplanner": {
+          "n": 685,
+          "root_exact_correct": 20
+        },
+        "vitabench": {
+          "n": 108,
+          "root_exact_correct": 4
+        },
+        "webarena_verified": {
+          "n": 177,
+          "root_exact_correct": 4
+        }
+      },
       "date": "2026-08-20",
       "status": "Paper Result",
       "links": {

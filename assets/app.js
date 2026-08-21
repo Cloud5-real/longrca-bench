@@ -29,19 +29,27 @@ const renderLeaderboard = (payload) => {
   body.innerHTML = payload.results
     .map((row, index) => {
       const paperUrl = row.links.paper;
+      const benchmarkCells = payload.benchmark_slices
+        .map((benchmark) => {
+          const result = row.by_benchmark[benchmark.id];
+          return `
+            <td class="number slice-metric" title="${result.root_exact_correct} / ${result.n} exact">
+              ${formatPercent(result.root_exact_correct, result.n)}
+            </td>`;
+        })
+        .join("");
       return `
         <tr class="${index === 0 ? "leader" : ""}">
           <td><span class="rank">${index + 1}</span></td>
-          <td>
-            <a class="method-link" href="${escapeHtml(paperUrl)}">${escapeHtml(row.method)} <span aria-hidden="true">↗</span></a>
+          <td class="model-cell">
+            <span class="model-name">${escapeHtml(row.model)}</span>
             <span class="sample-count">n = ${row.n.toLocaleString("en-US")}</span>
           </td>
-          <td><span class="model-chip">${escapeHtml(row.model)}</span></td>
-          <td class="number">${formatPercent(row.role_correct, row.n)}</td>
+          <td>
+            <a class="method-link" href="${escapeHtml(paperUrl)}">${escapeHtml(row.method)} <span aria-hidden="true">↗</span></a>
+          </td>
           <td class="number primary-metric"><strong>${formatPercent(row.root_exact_correct, row.n)}</strong></td>
-          <td class="number">${formatPercent(row.root_within_5_correct, row.n)}</td>
-          <td class="number">${row.root_mae.toFixed(1)}</td>
-          <td><span class="status">${escapeHtml(row.status)}</span></td>
+          ${benchmarkCells}
         </tr>`;
     })
     .join("");
@@ -49,7 +57,7 @@ const renderLeaderboard = (payload) => {
 
 const renderFailure = () => {
   const body = document.querySelector("#leaderboard-body");
-  body.innerHTML = '<tr><td colspan="8" class="loading error">Leaderboard data could not be loaded.</td></tr>';
+  body.innerHTML = '<tr><td colspan="9" class="loading error">Leaderboard data could not be loaded.</td></tr>';
 };
 
 const loadData = async () => {

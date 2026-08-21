@@ -57,6 +57,8 @@ class RepositoryContractTest(unittest.TestCase):
             )
         )
         result_fields = schema["$defs"]["result"]["properties"]
+        self.assertIn("benchmark_slices", schema["properties"])
+        self.assertIn("by_benchmark", result_fields)
         for field in (
             "role_correct",
             "root_exact_correct",

@@ -3,20 +3,20 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>LongRCA Bench: Diagnosing Responsible Roles and Root Causes in Long-Horizon Agent Failures</title>
-    <meta name="description" content="LongRCA Bench evaluates responsible-role and root-cause localization in long-horizon agent failures across 1,140 public trajectories.">
+    <title>LongRCA Bench Leaderboard | Exact Root-Cause Localization</title>
+    <meta name="description" content="LongRCA Bench evaluates exact root-cause step localization across 1,140 long-horizon agent trajectories from five benchmarks.">
     <meta name="theme-color" content="#142b49">
     <meta property="og:type" content="website">
     <meta property="og:title" content="LongRCA Bench">
-    <meta property="og:description" content="Who was responsible—and where did the failure begin? Benchmark long-horizon agent failure diagnosis across 1,140 public trajectories.">
+    <meta property="og:description" content="Benchmarking exact root-cause localization across 1,140 long-horizon agent trajectories.">
     <meta property="og:url" content="https://cloud5-real.github.io/longrca-bench/">
     <meta property="og:image" content="https://cloud5-real.github.io/longrca-bench/assets/og-card.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="LongRCA Bench trajectory from root cause to observed failure">
+    <meta property="og:image:alt" content="LongRCA Bench exact-step leaderboard">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="LongRCA Bench">
-    <meta name="twitter:description" content="Who was responsible—and where did the failure begin?">
+    <meta name="twitter:description" content="Exact root-cause localization for long-horizon agent failures.">
     <meta name="twitter:image" content="https://cloud5-real.github.io/longrca-bench/assets/og-card.png">
     <link rel="canonical" href="https://cloud5-real.github.io/longrca-bench/">
     <link rel="icon" href="assets/favicon.png" type="image/png">
@@ -43,42 +43,22 @@
 
     <main>
       <section class="hero" id="overview">
-        <div class="shell hero-grid">
+        <div class="shell hero-grid hero-compact">
           <div class="hero-copy">
-            <p class="eyebrow"><span></span> Long-horizon root-cause analysis</p>
-            <h1>Diagnosing <em>who</em> was responsible and <em>where</em> the failure began.</h1>
-            <p class="hero-lede">LongRCA Bench: Diagnosing Responsible Roles and Root Causes in Long-Horizon Agent Failures</p>
-            <p class="hero-description">A public benchmark for tracing consequential agent failures back through long, multi-role trajectories—separating responsible-role attribution from exact root-event localization.</p>
+            <p class="eyebrow"><span></span> LongRCA Bench</p>
+            <h1>Benchmarking root-cause localization in long-horizon agent failures.</h1>
+            <p class="hero-lede">1,140 trajectories · 5 benchmarks · exact step localization.</p>
             <div class="hero-actions" aria-label="Project resources">
               <a class="button button-primary" href="https://arxiv.org/abs/2608.15242">Read the paper <span aria-hidden="true">↗</span></a>
               <a class="button" href="https://huggingface.co/datasets/CLoud5-real/longrca-bench">Hugging Face <span aria-hidden="true">↗</span></a>
               <a class="button" href="https://github.com/Cloud5-real/longrca-bench">GitHub <span aria-hidden="true">↗</span></a>
             </div>
           </div>
-          <aside class="hero-card" aria-label="Benchmark task summary">
-            <p class="card-kicker">Two questions. One trajectory.</p>
-            <div class="task-pair">
-              <div>
-                <span class="task-number">01</span>
-                <h2>Who?</h2>
-                <p>Identify the role responsible for the failure.</p>
-              </div>
-              <div>
-                <span class="task-number">02</span>
-                <h2>When?</h2>
-                <p>Locate the earliest root-cause event.</p>
-              </div>
-            </div>
-            <div class="trajectory-line" aria-hidden="true">
-              <i></i><i></i><i></i><i class="root"></i><i></i><i></i><i></i><i></i><i class="end"></i>
-            </div>
-            <div class="trajectory-labels"><span>Root cause</span><span>Observed failure</span></div>
-          </aside>
         </div>
         <div class="shell">
           <div class="stats-grid" id="benchmark-stats" aria-label="Benchmark statistics">
             <div class="stat-card"><span class="stat-value">1,140</span><span class="stat-label">Trajectories</span><span class="stat-note">Public evaluation set</span></div>
-            <div class="stat-card"><span class="stat-value">5</span><span class="stat-label">Domains</span><span class="stat-note">Diverse agent settings</span></div>
+            <div class="stat-card"><span class="stat-value">5</span><span class="stat-label">Benchmarks</span><span class="stat-note">Diverse agent settings</span></div>
             <div class="stat-card"><span class="stat-value">145</span><span class="stat-label">Median steps</span><span class="stat-note">Long-horizon traces</span></div>
             <div class="stat-card"><span class="stat-value">48</span><span class="stat-label">Median root-to-end</span><span class="stat-note">Steps after the root cause</span></div>
           </div>
@@ -90,31 +70,32 @@
           <div class="section-heading">
             <div>
               <p class="section-index">01 / Paper Results</p>
-              <h2>Overall leaderboard</h2>
+              <h2>Exact-step leaderboard</h2>
             </div>
-            <p>Six methods evaluated on the same 1,140 public trajectories with a shared DeepSeek-V4-Flash backbone. Ranked by Root Exact.</p>
+            <p>Ranked by exact root-cause step accuracy, with results broken out across all five source benchmarks.</p>
           </div>
-          <div class="notice" role="note"><span>Public gold labels</span> These are reproducibility-oriented paper results, not a hidden-test competition.</div>
+          <div class="notice" role="note"><span>Paper results</span> One shared public evaluation set and one DeepSeek-V4-Flash backbone.</div>
           <div class="table-wrap" tabindex="0" aria-label="Scrollable leaderboard table">
             <table>
               <thead>
                 <tr>
                   <th scope="col">Rank</th>
+                  <th scope="col">Model</th>
                   <th scope="col">Method</th>
-                  <th scope="col">Backbone</th>
-                  <th scope="col" class="number">Role Acc.</th>
-                  <th scope="col" class="number primary-metric">Root Exact</th>
-                  <th scope="col" class="number">Root ±5</th>
-                  <th scope="col" class="number">Root MAE ↓</th>
-                  <th scope="col">Status</th>
+                  <th scope="col" class="number primary-metric">Overall</th>
+                  <th scope="col" class="number">SWE-bench Pro</th>
+                  <th scope="col" class="number">Terminal-Bench 2</th>
+                  <th scope="col" class="number">TravelPlanner</th>
+                  <th scope="col" class="number">VitaBench</th>
+                  <th scope="col" class="number">WebArena</th>
                 </tr>
               </thead>
               <tbody id="leaderboard-body">
-                <tr><td colspan="8" class="loading">Loading paper results…</td></tr>
+                <tr><td colspan="9" class="loading">Loading paper results…</td></tr>
               </tbody>
             </table>
           </div>
-          <p class="table-footnote">Percentages are computed in the browser from exact correct counts in <code>data/leaderboard.json</code>. Root MAE is lower-is-better.</p>
+          <p class="table-footnote">All displayed values are exact-step accuracy. Percentages are computed from versioned correct counts and denominators in <code>data/leaderboard.json</code>. Role attribution, ±5 accuracy, and MAE remain available in the data file.</p>
         </div>
       </section>
 
@@ -123,23 +104,17 @@
           <div class="section-heading">
             <div>
               <p class="section-index">02 / Evaluation</p>
-              <h2>Two targets, scored independently.</h2>
+              <h2>Exact localization leads the ranking.</h2>
             </div>
-            <p>LongRCA separates responsible-role attribution from root-event localization. A method can identify the right role without locating the right step—and vice versa.</p>
+            <p>The main leaderboard focuses on the exact root-cause step. Complementary metrics remain versioned for deeper analysis.</p>
           </div>
 
           <div class="metrics-grid">
             <article class="metric-card featured-metric">
-              <div class="metric-mark">WHO</div>
-              <h3>Role Accuracy</h3>
-              <p>Exact normalized match between the submitted <code>predicted_role</code> and the gold responsible role.</p>
-              <small>Scored directly from the explicit role prediction, independently of <code>predicted_step</code>.</small>
-            </article>
-            <article class="metric-card">
               <div class="metric-mark">=</div>
               <h3>Root Exact</h3>
               <p>Fraction of trajectories whose predicted root-cause step exactly matches the gold step.</p>
-              <small>Primary ranking metric. Higher is better.</small>
+              <small>Primary ranking metric, reported overall and for every source benchmark.</small>
             </article>
             <article class="metric-card">
               <div class="metric-mark">±5</div>
@@ -152,6 +127,12 @@
               <h3>Root MAE</h3>
               <p>Mean absolute root-step error, measured in trajectory steps over valid step predictions.</p>
               <small>Coverage and failures remain visible in the JSON. Lower is better.</small>
+            </article>
+            <article class="metric-card">
+              <div class="metric-mark">ROLE</div>
+              <h3>Role Accuracy</h3>
+              <p>Exact normalized match between the submitted <code>predicted_role</code> and the gold responsible role.</p>
+              <small>Scored independently and retained as a diagnostic metric outside the primary table.</small>
             </article>
           </div>
 
@@ -242,7 +223,7 @@
       <div class="shell footer-grid">
         <div>
           <a class="brand footer-brand" href="#overview"><span class="brand-mark" aria-hidden="true">LR</span><span>LongRCA Bench</span></a>
-          <p>Diagnosing responsible roles and root causes in long-horizon agent failures.</p>
+          <p>Exact root-cause localization in long-horizon agent failures.</p>
         </div>
         <div class="footer-links">
           <a href="https://arxiv.org/abs/2608.15242">Paper</a>
@@ -250,7 +231,7 @@
           <a href="https://github.com/Cloud5-real/longrca-bench">GitHub</a>
           <a href="#contribute">Contribute</a>
         </div>
-        <p class="footer-note">Paper Results · Public evaluation data<br>Last updated <time datetime="2026-08-20">2026-08-20</time></p>
+        <p class="footer-note">Paper Results · Public evaluation data<br>Last updated <time datetime="2026-08-21">2026-08-21</time></p>
       </div>
     </footer>
   </body>

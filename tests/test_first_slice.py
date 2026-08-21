@@ -15,10 +15,15 @@ class FirstSliceTest(unittest.TestCase):
     def test_hero_stats_and_leaderboard_surface_exist(self) -> None:
         html = (REPO_ROOT / "index.html").read_text(encoding="utf-8")
         self.assertIn(
-            "LongRCA Bench: Diagnosing Responsible Roles and Root Causes in "
-            "Long-Horizon Agent Failures",
+            "Benchmarking root-cause localization in long-horizon agent failures.",
             html,
         )
+        self.assertIn(
+            "1,140 trajectories · 5 benchmarks · exact step localization.", html
+        )
+        self.assertNotIn("Diagnosing <em>who</em>", html)
+        self.assertNotIn(">Who?<", html)
+        self.assertNotIn(">When?<", html)
         for url in (PAPER_URL, DATASET_URL, GITHUB_URL):
             self.assertIn(url, html)
         for anchor in ("overview", "leaderboard"):
@@ -28,12 +33,31 @@ class FirstSliceTest(unittest.TestCase):
         self.assertIn('href="assets/styles.css"', html)
         self.assertIn('src="assets/app.js"', html)
 
+    def test_leaderboard_is_model_first_and_step_exact_focused(self) -> None:
+        html = (REPO_ROOT / "index.html").read_text(encoding="utf-8")
+        headers = [
+            "Model",
+            "Method",
+            "Overall",
+            "SWE-bench Pro",
+            "Terminal-Bench 2",
+            "TravelPlanner",
+            "VitaBench",
+            "WebArena",
+        ]
+        positions = [html.index(f">{header}<") for header in headers]
+        self.assertEqual(sorted(positions), positions)
+        table_head = html[html.index("<thead>") : html.index("</thead>")]
+        self.assertNotIn(">Role Acc.<", table_head)
+        self.assertNotIn(">Root ±5<", table_head)
+        self.assertNotIn(">Root MAE ↓<", table_head)
+
     def test_site_metadata_contains_approved_statistics(self) -> None:
         site = json.loads((REPO_ROOT / "data" / "site.json").read_text(encoding="utf-8"))
         self.assertEqual(
             [
                 ("Trajectories", "1,140"),
-                ("Domains", "5"),
+                ("Benchmarks", "5"),
                 ("Median steps", "145"),
                 ("Median root-to-end", "48"),
             ],
@@ -44,8 +68,8 @@ class FirstSliceTest(unittest.TestCase):
         script = (REPO_ROOT / "assets" / "app.js").read_text(encoding="utf-8")
         self.assertIn('fetch("data/leaderboard.json")', script)
         self.assertIn("root_exact_correct", script)
-        self.assertIn("role_correct", script)
-        self.assertIn("root_within_5_correct", script)
+        self.assertIn("benchmark_slices", script)
+        self.assertIn("by_benchmark", script)
         for method in ("RCTA", "ECHO", "All-at-once", "Step-by-step"):
             self.assertNotIn(f'"{method}"', script)
 

@@ -41,6 +41,7 @@ class ExportPaperResultsTest(unittest.TestCase):
         fields = [
             "method",
             "method_label",
+            "benchmark",
             "qid",
             "predicted_agent",
             "predicted_role_derived",
@@ -54,6 +55,7 @@ class ExportPaperResultsTest(unittest.TestCase):
         row = {
             "method": "agent_error_trajectory_analysis",
             "method_label": "RCTA",
+            "benchmark": "swe_bench_pro",
             "qid": "sample-1",
             "predicted_agent": "CorrectRole",
             "predicted_role_derived": "WrongRole",
@@ -112,6 +114,35 @@ class ExportPaperResultsTest(unittest.TestCase):
                 self.assertEqual(mae, round(row["root_mae"], 1))
                 self.assertEqual("DeepSeek-V4-Flash", row["model"])
                 self.assertEqual("Paper Result", row["status"])
+
+        self.assertEqual(
+            [
+                ("swe_bench_pro", "SWE-bench Pro", 128),
+                ("terminal_bench_2", "Terminal-Bench 2", 42),
+                ("travelplanner", "TravelPlanner", 685),
+                ("vitabench", "VitaBench", 108),
+                ("webarena_verified", "WebArena", 177),
+            ],
+            [
+                (item["id"], item["label"], item["n"])
+                for item in payload["benchmark_slices"]
+            ],
+        )
+        expected_exact = {
+            "RCTA": [49, 11, 129, 27, 59],
+            "ECHO": [10, 9, 61, 24, 46],
+            "All-at-once": [2, 3, 31, 21, 30],
+            "Step-by-step": [1, 2, 24, 13, 20],
+            "Binary search": [1, 2, 14, 13, 9],
+            "FALAT": [3, 1, 20, 4, 4],
+        }
+        slice_ids = [item["id"] for item in payload["benchmark_slices"]]
+        for row in results:
+            with self.subTest(method=row["method"], metric="per-benchmark exact"):
+                self.assertEqual(
+                    expected_exact[row["method"]],
+                    [row["by_benchmark"][slice_id]["root_exact_correct"] for slice_id in slice_ids],
+                )
 
 
 if __name__ == "__main__":

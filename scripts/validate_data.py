@@ -23,6 +23,7 @@ REQUIRED_TOP_LEVEL = {
     "paper_url",
     "dataset_url",
     "sort",
+    "benchmark_slices",
     "results",
 }
 
@@ -37,6 +38,7 @@ REQUIRED_RESULT_FIELDS = {
     "root_mae",
     "valid_step_n",
     "failed_n",
+    "by_benchmark",
     "date",
     "status",
     "links",
@@ -64,6 +66,14 @@ REQUIRED_PUBLIC_LINKS = {
 }
 REQUIRED_ANCHORS = {"overview", "leaderboard", "metrics", "contribute", "citation"}
 TEXT_SUFFIXES = {".css", ".html", ".js", ".json", ".md", ".py", ".txt", ".xml", ".yaml", ".yml"}
+
+CANONICAL_BENCHMARK_SLICES = [
+    {"id": "swe_bench_pro", "label": "SWE-bench Pro", "n": 128},
+    {"id": "terminal_bench_2", "label": "Terminal-Bench 2", "n": 42},
+    {"id": "travelplanner", "label": "TravelPlanner", "n": 685},
+    {"id": "vitabench", "label": "VitaBench", "n": 108},
+    {"id": "webarena_verified", "label": "WebArena", "n": 177},
+]
 
 
 class SiteParser(HTMLParser):
@@ -135,8 +145,8 @@ def validate_leaderboard(payload: Any) -> None:
         raise ValueError(f"leaderboard is missing fields: {sorted(missing)}")
     _find_forbidden_fields(payload)
 
-    if payload["schema_version"] != "1.0.0":
-        raise ValueError("schema_version must be 1.0.0")
+    if payload["schema_version"] != "1.1.0":
+        raise ValueError("schema_version must be 1.1.0")
     if payload["benchmark"] != "LongRCA Bench":
         raise ValueError("benchmark must be LongRCA Bench")
     if payload["evaluation_split"] != "public":
@@ -146,6 +156,14 @@ def validate_leaderboard(payload: Any) -> None:
     require_https_url(payload["dataset_url"], label="dataset_url")
     if payload["sort"] != {"metric": "root_exact", "direction": "descending"}:
         raise ValueError("sort contract must be Root Exact descending")
+
+    benchmark_slices = payload["benchmark_slices"]
+    if benchmark_slices != CANONICAL_BENCHMARK_SLICES:
+        raise ValueError("benchmark_slices must match the five canonical public slices")
+    benchmark_ids = [item["id"] for item in benchmark_slices]
+    benchmark_n = {item["id"]: item["n"] for item in benchmark_slices}
+    if sum(benchmark_n.values()) != 1140:
+        raise ValueError("benchmark_slices must sum to n=1140")
 
     results = payload["results"]
     if not isinstance(results, list) or not results:
@@ -201,6 +219,32 @@ def validate_leaderboard(payload: Any) -> None:
             row["root_mae"], bool
         ) or row["root_mae"] < 0:
             raise ValueError(f"{result_id}: root_mae must be non-negative")
+
+        by_benchmark = row["by_benchmark"]
+        if not isinstance(by_benchmark, dict) or list(by_benchmark) != benchmark_ids:
+            raise ValueError(
+                f"{result_id}: by_benchmark must contain the canonical slices in order"
+            )
+        slice_exact_total = 0
+        for benchmark_id in benchmark_ids:
+            slice_result = by_benchmark[benchmark_id]
+            if not isinstance(slice_result, dict) or set(slice_result) != {
+                "n",
+                "root_exact_correct",
+            }:
+                raise ValueError(
+                    f"{result_id}.{benchmark_id}: expected n and root_exact_correct"
+                )
+            if slice_result["n"] != benchmark_n[benchmark_id]:
+                raise ValueError(
+                    f"{result_id}.{benchmark_id}: n must equal {benchmark_n[benchmark_id]}"
+                )
+            _validate_count(slice_result, "root_exact_correct", slice_result["n"])
+            slice_exact_total += slice_result["root_exact_correct"]
+        if slice_exact_total != row["root_exact_correct"]:
+            raise ValueError(
+                f"{result_id}: per-benchmark Root Exact counts must sum to overall"
+            )
         require_iso_date(row["date"], label=f"{result_id}.date")
 
         links = row["links"]
@@ -311,7 +355,7 @@ def validate_site(root: Path) -> None:
     site = json.loads((root / "data" / "site.json").read_text(encoding="utf-8"))
     expected_stats = [
         ("Trajectories", "1,140"),
-        ("Domains", "5"),
+        ("Benchmarks", "5"),
         ("Median steps", "145"),
         ("Median root-to-end", "48"),
     ]

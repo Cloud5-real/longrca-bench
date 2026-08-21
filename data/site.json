@@ -14,7 +14,7 @@
       "note": "Public evaluation set"
     },
     {
-      "label": "Domains",
+      "label": "Benchmarks",
       "value": "5",
       "note": "Diverse agent settings"
     },
