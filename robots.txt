@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://cloud5-real.github.io/longrca-bench/sitemap.xml
+Sitemap: https://longrca-bench.github.io/sitemap.xml

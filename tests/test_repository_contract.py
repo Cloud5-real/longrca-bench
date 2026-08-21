@@ -75,10 +75,10 @@ class RepositoryContractTest(unittest.TestCase):
     def test_readme_has_live_resource_links(self) -> None:
         readme = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
         for url in (
-            "https://cloud5-real.github.io/longrca-bench/",
+            "https://longrca-bench.github.io/",
             "https://arxiv.org/abs/2608.15242",
             "https://huggingface.co/datasets/CLoud5-real/longrca-bench",
-            "https://github.com/Cloud5-real/longrca-bench",
+            "https://github.com/longrca-bench/longrca-bench.github.io",
         ):
             self.assertIn(url, readme)
 

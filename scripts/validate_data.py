@@ -59,7 +59,7 @@ FORBIDDEN_FIELDS = {
 }
 
 ID_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
-CANONICAL_URL = "https://cloud5-real.github.io/longrca-bench/"
+CANONICAL_URL = "https://longrca-bench.github.io/"
 REQUIRED_PUBLIC_LINKS = {
     "https://arxiv.org/abs/2608.15242",
     "https://huggingface.co/datasets/CLoud5-real/longrca-bench",
