@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import unittest
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 
@@ -39,6 +40,23 @@ class FirstSliceTest(unittest.TestCase):
             relative_path = f"assets/icons/{icon}"
             self.assertIn(f'src="{relative_path}"', html)
             self.assertTrue((REPO_ROOT / relative_path).is_file())
+
+    def test_resource_icons_preserve_brand_colors(self) -> None:
+        expected_colors = {
+            "arxiv.svg": "#B31B1B",
+            "huggingface.svg": "#FFD21E",
+            "github.svg": "#181717",
+        }
+        namespace = {"svg": "http://www.w3.org/2000/svg"}
+        for icon, expected_color in expected_colors.items():
+            with self.subTest(icon=icon):
+                root = ET.parse(REPO_ROOT / "assets" / "icons" / icon).getroot()
+                paths = root.findall(".//svg:path", namespace)
+                self.assertTrue(paths)
+                self.assertEqual(
+                    {expected_color},
+                    {path.get("fill") for path in paths},
+                )
 
     def test_leaderboard_is_model_first_and_step_exact_focused(self) -> None:
         html = (REPO_ROOT / "index.html").read_text(encoding="utf-8")

@@ -186,8 +186,8 @@ h1 em { color: #8ee6d4; font-weight: 500; }
 .button:hover, .button:focus-visible { transform: translateY(-2px); background: rgba(255,255,255,.09); }
 .button-primary { border-color: white; background: white; color: var(--navy); }
 .button-primary:hover, .button-primary:focus-visible { background: #dff8f3; }
-.resource-icon { width: 17px; height: 17px; filter: invert(1); }
-.button-primary .resource-icon { filter: none; }
+.resource-icon { width: 17px; height: 17px; }
+.resource-icon-github { width: 19px; height: 19px; padding: 2px; border-radius: 50%; background: white; }
 
 .stats-grid {
   position: relative;
